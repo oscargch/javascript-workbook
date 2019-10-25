@@ -1,3 +1,3 @@
-var checktype = 0/0 ;
+var num=213; 
 
-console.log(typeof checktype);
+console.log("Output: " + num.toString(2)); 
