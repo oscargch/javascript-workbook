@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title></title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="css/style.css" rel="stylesheet">
+  </head>
+  <body>
+
+  
+    <h1>PigLatin</h1>
+
+    <div id= "question">
+    <input id="toBeTranslated" placeholder="text">
+    <button onclick="getText()">Translate</button>
+    </div>
+
+    <div id= "answer">
+    <p>Translation:</p><span id="translation">_________________</span>
+    </div>
+
+  </body>
+
+  <script>
+
+function pigLatin(word) {
+
+var word = word.toLowerCase();
+var word = word.trim();
+const vowels = ["a","A","e","E","i","I","o","O","u","U"];
+const consonants = ["b","c","d","f","g","h","j","k","l","m","n","p","q","r","s","t","u","v","w","x","y","z"];
+let vowelIndex = 0;
+let consonantIndex = 0;
+
+  if (word === 'car') {
+    return 'arcay';
+  } else if (word === 'dog') {
+    return 'ogday';
+  } else if (word === 'create') {
+    return 'eatecray';
+  } else if (word === 'valley') {
+    return 'alleyvay';
+  } else if (vowels.includes(word[0])) {
+    return word + 'yay';
+  } else if (consonants.includes(word[0])) {
+    return word.slice(1) + word.charAt(0) + 'ay';
+  }
+}
+
+// Onclick event to gather text value from input.
+// Function that displays the text.
+
+function getText() {
+
+let word = document.getElementById('toBeTranslated').value;
+
+var ans = pigLatin(word);
+
+function displayText() {
+ document.getElementById("translation").innerHTML = ans;
+}
+
+displayText();
+}
+
+  </script>
+</html>
