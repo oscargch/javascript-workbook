@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title></title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="css/style.css" rel="stylesheet">
+  </head>
+  <body>
+    <h1>TIC - TAC - TOE</h1>
+    <div id="tableid">
+    <table>
+      <tr>
+        <td data-row="0" data-col="0" class="board-square">-</td>
+        <td data-row="0" data-col="1" class="board-square">-</td>
+        <td data-row="0" data-col="2" class="board-square">-</td>
+      </tr>
+      <tr>
+        <td data-row="1" data-col="0" class="board-square">-</td>
+        <td data-row="1" data-col="1" class="board-square">-</td>
+        <td data-row="1" data-col="2" class="board-square">-</td>
+      </tr>
+      <tr>
+        <td data-row="2" data-col="0" class="board-square">-</td>
+        <td data-row="2" data-col="1" class="board-square">-</td>
+        <td data-row="2" data-col="2" class="board-square">-</td>
+      </tr>
+    </table>
+    <p>Player <span id="#winner">_</span> wins!</p>
+    <button style="margin: 0 auto; display: block;" id="clear">Clear Board</button>
+  </div>
+  </body>
+  <script>
+
+
+//A constant for squares in general. It selects all that are a class of board-square.
+const squares = document.querySelectorAll('.board-square');
+
+//For each square we add an event listener which is a click.
+squares.forEach(function(item) {
+  item.addEventListener("click", handleClick);
+});
+
+// This function is triggered when there is a click on one of the squares.
+function handleClick (event) {
+  // console.log({target: event.target});
+  console.log('someone clicked something')
+  console.log(board);
+  
+  // 
+  let square = event.target;
+  square.textContent = playerTurn;
+
+  // This is what connects the rows and columns to the logic on the javascript below.
+  let squareCol = square.dataset.col;
+  let squareRow = square.dataset.row;
+
+ticTacToe(squareRow, squareCol);
+checkForWin(); 
+}
+
+function displayWinner() {
+  if (playerTurn === 'X') {
+    playerTurn = 'O';
+  } else if (playerTurn === 'O') {
+    playerTurn = 'X';
+  }
+  document.getElementById('#winner').innerText = playerTurn;
+  clearBoard();
+};
+
+function clearBoard() {
+  document.querySelectorAll('.board-square').forEach(cell => {
+      cell.innerText = '-';
+  board = [
+  [' ', ' ', ' '],
+  [' ', ' ', ' '],
+  [' ', ' ', ' ']
+];   
+ })
+}
+
+let board = [
+  [' ', ' ', ' '],
+  [' ', ' ', ' '],
+  [' ', ' ', ' ']
+];
+
+let playerTurn = 'X';
+
+function horizontalWin() {
+  if (
+      board[0][0] === playerTurn && 
+      board[0][1] === playerTurn &&
+      board[0][2] === playerTurn
+      ) {
+        console.log('horizontal option 1');
+        return true;
+      } else if (
+      board[1][0] === playerTurn && 
+      board[1][1] === playerTurn &&
+      board[1][2] === playerTurn
+      ) {
+        return true;
+      } else if (
+      board[2][0] === playerTurn && 
+      board[2][1] === playerTurn &&
+      board[2][2] === playerTurn
+      ) {
+        return true;
+      } 
+
+        return false;
+};
+
+function verticalWin() {
+  if (
+      board[0][0] === playerTurn && 
+      board[1][0] === playerTurn &&
+      board[2][0] === playerTurn
+      ) {
+        console.log('option 1');
+        return true;
+      } else if (
+      board[0][1] === playerTurn && 
+      board[1][1] === playerTurn &&
+      board[2][1] === playerTurn
+      ) {
+        console.log('option 2');
+        return true;
+      } else if (
+      board[0][2] === playerTurn && 
+      board[1][2] === playerTurn &&
+      board[2][2] === playerTurn
+      ) {
+        console.log('option 3');
+        return true;
+      } 
+      
+        return false;
+};
+
+function diagonalWin() {
+  if (
+    board[0][0] === playerTurn && 
+    board[1][1] === playerTurn &&
+    board[2][2] === playerTurn
+    ) {
+      console.log('diagonal option 1');
+      return true;
+    } else if (
+    board[2][0] === playerTurn && 
+    board[1][1] === playerTurn &&
+    board[0][2] === playerTurn
+    ) {
+      console.log('diagonal option 2');
+      return true;
+    }
+    
+      return false;
+};
+
+function checkForWin() {
+
+if (diagonalWin() == true) {
+  displayWinner()
+  console.log('diagonal winner');
+  return true;
+} else if (verticalWin() == true) {
+  displayWinner()
+  console.log('vertical winner');
+  return true;
+} else if (horizontalWin() == true) {
+  displayWinner()
+  console.log('horizontal winner');
+  return true;
+};
+
+return false;
+};
+
+function ticTacToe(row, column) {
+
+
+
+  if (playerTurn === 'X') {
+    playerTurn = 'O';
+  } else if (playerTurn === 'O') {
+    playerTurn = 'X';
+  }
+
+  // let selectedRow = board[row];
+  // selectedRow[column] = playerTurn;
+
+  // This is the same as the above but in one line.
+  board[row][column] = playerTurn;
+
+};
+
+document.querySelector('#clear').addEventListener('click', function(event) {
+    document.querySelectorAll('.board-square').forEach(cell => {
+      cell.innerText = '-';
+      board = [
+  [' ', ' ', ' '],
+  [' ', ' ', ' '],
+  [' ', ' ', ' ']
+];
+    })
+  })
+
+
+
+  </script>
+
+</html>
