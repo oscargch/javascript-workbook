@@ -16,7 +16,7 @@ function forEach(arr, callback) {
     // array[i] -->> elemnet corresponding to index
     // i-- > index 
     callback(item, index, arr)
-  }
+  } 
 }
 
 console.log(forEach(['a', 'b', 'c'], function (element, index, arr) {
