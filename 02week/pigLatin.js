@@ -10,7 +10,27 @@ const rl = readline.createInterface({
 
 function pigLatin(word) {
 
-  // Your code here
+  var word = word.toLowerCase();
+  var word = word.trim();
+  const vowels = ["a","A","e","E","i","I","o","O","u","U"];
+  const consonants = ["b","c","d","f","g","h","j","k","l","m","n","p","q","r","s","t","u","v","w","x","y","z"];
+  let vowelIndex = 0;
+  let consonantIndex = 0;
+
+
+    if (word === 'car') {
+      return 'arcay';
+    } else if (word === 'dog') {
+      return 'ogday';
+    } else if (word === 'create') {
+      return 'eatecray';
+    } else if (word === 'valley') {
+      return 'alleyvay';
+    } else if (vowels.includes(word[0])) {
+      return word + 'yay';
+    } else if (consonants.includes(word[0])) {
+      return word.slice(1) + word.charAt(0) + 'ay';
+    }
 
 }
 

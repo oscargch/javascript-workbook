@@ -13,7 +13,7 @@ function findFromScratch (arr,  fn) { // all names different
       return element;
     } 
   }
-  return undefined;
+  return undefined; 
 
   //return the number that passes the test(returns true) or undefined if
   //none pass the test.
