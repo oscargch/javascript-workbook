@@ -80,10 +80,31 @@ function mastermind(guess) {
   // your code here
 
 
-  if (guess === solution) {
-    return 'You guessed it!';
+//   if (guess === solution) {
+//     return 'You guessed it!';
+//   }
+// }
+
+if (solution === guess) {
+  return "You guessed it!";
   }
-}
+  var hint = generateHint(guess);
+  board.push(guess + " " + hint);
+  
+  if (board.length >= 10) {
+  return "You ran out of turns!";
+  }
+  
+  return "Guess again!";
+  }
+  
+  function getPrompt() {
+  rl.question('guess: ', (guess) => {
+  mastermind(guess);
+  printBoard();
+  getPrompt();
+  });
+  }
 
 function getPrompt() {
   rl.question('guess: ', (guess) => {
