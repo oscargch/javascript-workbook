@@ -1,0 +1,33 @@
+{
+"configurations": [
+  {
+    "type": "chrome",
+    "request": "attach",
+    "name": "Attach to Chrome",
+    "port": 9222,
+    "webRoot": "${workspaceFolder}"
+  },
+
+  {
+    "type": "node",
+    "request": "launch",
+    "name": "Launch Program",
+    "program": "${file}"
+  }
+
+// {
+//   "type": "node",
+//   "request": "launch",
+//   "name": "Node",
+//   "port": 9229,
+//   "protocol": "inspector",
+//   "runtimeExecutable": "npm",
+//   "runtimeArgs": [
+//     "run-script",
+//     "start"
+//   ],
+//   "console": "integratedTerminal"
+// }
+
+]
+}
