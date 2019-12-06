@@ -112,6 +112,7 @@ function reduce(arr, callback) {
     arr.unshift(combined) // 6 3 
   }
   return arr
+  
 }
 
 // function some(arr, callback) {
