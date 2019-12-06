@@ -50,9 +50,9 @@ let arrOfPeople = [
   },
 ]
 
-const listOfPlayers = []
-const blueTeam = []
-const redTeam = []
+let listOfPlayers = []
+let blueTeam = []
+let redTeam = []
 
 class Player {
   constructor(person, canThrowBall = true, canDodgeBall = true, hasPaid = false, isHealthy = true, yearsExperience = 0) {
@@ -64,29 +64,49 @@ class Player {
     this.canThrowBall = canThrowBall;
   }
 
-  addToBlueTeam() {
-    console.log(`ask to add ${this.person.id} to blue team`)
-    blueTeam.push(this)
+  addToBlueTeamAndShow() {
+    this.addToBlueTeam()
     listBlueTeam()
+    listPlayers()
+  }
+
+  addToRedTeamAndShow() {
+    this.addToRedTeam()
+    listRedTeam()
+    listPlayers()
+  }
+
+  addToBlueTeam() {
+    // console.log(`ask to add ${this.person.id} to blue team`)
+    listOfPlayers = filter(listOfPlayers, player => player != this)
+    blueTeam.push(new BlueTeammate(this.person, this.canThrowBall, this.canDodgeBall, this.hasPaid, this.isHealthy, this.yearsExperience))
   }
 
   addToRedTeam() {
-    console.log(`ask to add ${this.person.id} to red team`)
-    redTeam.push(this)
-    listRedTeam()
+    // console.log(`ask to add ${this.person.id} to red team`)
+    listOfPlayers = filter(listOfPlayers, player => player != this)
+    redTeam.push(new RedTeammate(this.person, this.canThrowBall, this.canDodgeBall, this.hasPaid, this.isHealthy, this.yearsExperience))
   }
 
-
   show() {
-    listOfPlayers.push(this)
     listPlayers()
   }
 }
-class blueTeammate {
-  constructor(){}
+
+class BlueTeammate extends Player {
+  constructor(person, canThrowBall = true, canDodgeBall = true, hasPaid = false, isHealthy = true, yearsExperience = 0) {
+    super(person, canThrowBall, canDodgeBall, hasPaid, isHealthy, yearsExperience);
+    this.color = "blue"
+    this.mascot = " blue hawk"
+  }
 }
-class redTeammate {
-  constructor(){}
+
+class RedTeammate extends Player {
+  constructor(person, canThrowBall = true, canDodgeBall = true, hasPaid = false, isHealthy = true, yearsExperience = 0) {
+    super(person, canThrowBall, canDodgeBall, hasPaid, isHealthy, yearsExperience);
+    this.color = "red"
+    this.mascot = "red hawk"
+  }
 }
 // "<html>" | "<new html>" -> trees, abstract syntax trees
 // virtual DOM - javascritp data structures emulating the real DOM
@@ -99,7 +119,7 @@ const listPeopleChoices = () => {
     const li = document.createElement("li")
     const button = document.createElement("button")
     button.innerHTML = "Make Player"
-    button.addEventListener('click', function() {makePlayer(person.id)} )
+    button.addEventListener('click', function() {makeAndShowPlayer(person.id)} )
     li.appendChild(button)
     li.appendChild(document.createTextNode(person.name + " - " + person.skillSet))
     listElement.append(li)
@@ -115,10 +135,12 @@ const listPlayers = () => {
     const li = document.createElement("li")
     const blueButton = document.createElement("button")
     blueButton.innerHTML = "Add to blue team"
-    blueButton.addEventListener('click', function() {player.addToBlueTeam()} )
+    blueButton.style.background = "blue"
+    blueButton.addEventListener('click', function() {player.addToBlueTeamAndShow()} )
     const redButton = document.createElement("button")
     redButton.innerHTML = "Add to red team"
-    redButton.addEventListener('click', function() {player.addToRedTeam()} )
+    redButton.style.background = "red"
+    redButton.addEventListener('click', function() {player.addToRedTeamAndShow()} )
     li.appendChild(blueButton)
     li.appendChild(redButton)
     li.appendChild(document.createTextNode(person.name + " - " + person.skillSet))
@@ -133,6 +155,7 @@ const listBlueTeam = () => {
   blueTeam.map(player => {
     var person = player.person;
     const li = document.createElement("li")
+    li.style.border = "1px solid blue"
     li.appendChild(document.createTextNode(person.name + " - " + person.skillSet))
     listElement.append(li)
   })
@@ -145,6 +168,7 @@ const listRedTeam = () => {
   redTeam.map(player => {
     var person = player.person;
     const li = document.createElement("li")
+    li.style.border = "1px solid red"
     li.appendChild(document.createTextNode(person.name + " - " + person.skillSet))
     listElement.append(li)
   })
@@ -189,12 +213,60 @@ function filter(arr, callback) {
   return resultingArray2
 }
 
+const makeAndShowPlayer = (id) => {
+  var player = makePlayer(id);
+  player.show();
+  listPeopleChoices();
+  
+}
+
 const makePlayer = (id) => {
-  console.log(`li ${id} was clicked!`)
+  // console.log(`li ${id} was clicked!`)
   var person = findFromScratch(arrOfPeople, (person) => person.id == id)
-  console.log(person)
+  // console.log(person)
   var player = new Player(person)
-  player.show()
   arrOfPeople = filter(arrOfPeople, (person) => id != person.id)
-  listPeopleChoices()
+  listOfPlayers.push(player)
+  return player 
+}
+/**
+ * Testable : put logic and other stuff separately, and then test logic
+ * f -> computation testable []
+ * g -> redaw ui
+ */
+// Tests
+if (typeof describe === 'function') {
+  const assert = require('assert');
+
+  describe('Dodgeball Team Management', () => {
+    it('should move people to players', () => {
+      var randomPerson = arrOfPeople[0]
+      assert(findFromScratch(arrOfPeople, person => person == randomPerson))
+      makePlayer(randomPerson.id)
+      assert(!findFromScratch(arrOfPeople, person => person == randomPerson))
+      // console.log(listOfPlayers, randomPerson)
+      assert(findFromScratch(listOfPlayers, player => player.person.id == randomPerson.id))
+    })
+
+    it('should move players to blue team', () => {
+      makePlayer(arrOfPeople[0].id)
+      var randomPlayer = listOfPlayers[0]
+      assert(findFromScratch(listOfPlayers, player => player == randomPlayer))
+      randomPlayer.addToBlueTeam()
+      assert(!findFromScratch(listOfPlayers, player => player == randomPlayer))
+      assert(findFromScratch(blueTeam, teamPlayer => teamPlayer.person.id == randomPlayer.person.id))
+
+    })
+
+    it('should move players to red team', () => {
+      // console.log(arrOfPeople[0]);
+      var randomPlayer = makePlayer(arrOfPeople[0].id)
+      // console.log(randomPlayer);
+      assert(findFromScratch(listOfPlayers, player => player == randomPlayer))
+      randomPlayer.addToRedTeam()
+      assert(!findFromScratch(listOfPlayers, player => player == randomPlayer))
+      assert(findFromScratch(redTeam, teamPlayer => teamPlayer.person.id == randomPlayer.person.id))
+    })
+  
+  })
 }
