@@ -10,6 +10,50 @@ let jobTypes = {
 };
 
 // Your code here
+class CrewMember {
+  constructor(name, job, specialSkill) {
+    this.name = name;
+    this.job = job;
+    this.specialSkill = specialSkill;
+    this.ship = null;
+  }
+
+  enterShip(ship) {
+    this.ship = ship;
+    this.ship.crew.push(this);
+  }
+}
+// 100 people , name 0 1  2
+// Rick, Morty 
+// array.find (predciate)
+// predicate is a function that returns true or false
+// all_crew_members = []
+// function takeDataFromTHeUser() {
+//   var name = input()
+//   var skill = input()
+//   var job = input()
+//   var newCrewMember = new CrewMember(name, job, skill);
+//   all_crew_members.push(newCrewMember)
+// }
+
+class Ship {
+  constructor(a, b, c) {
+    this.name = a;
+    this.type = b;
+    this.ability = c;
+    this.crew = [];
+  }
+
+  missionStatement() {
+    if (this.crew.length === 0) {
+      return "Can't perform a mission yet.";
+    } else if (this.crew.length >= 1) {
+      return this.ability;
+    }
+  }
+}
+
+
 
 //tests
 if (typeof describe === 'function'){
